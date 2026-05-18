@@ -1,0 +1,10 @@
+sentence-transformers
+faiss-cpu
+openai>=1.0
+httpx
+dedupe; platform_system != "Windows" or python_version < "3.12"
+pandas
+numpy
+tqdm
+python-dotenv
+click

@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRM Deduplication Audit — Your CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --navy: #0B1F3B;
+        --bg: #F2F5F9;
+        --card: #FFFFFF;
+        --text: #12202F;
+        --muted: #5B6B7C;
+        --shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+        --border: rgba(15, 23, 42, 0.08);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      header {
+        background: linear-gradient(135deg, var(--navy), #123A6B);
+        color: #fff;
+        padding: 36px 22px;
+      }
+      .wrap { max-width: 1100px; margin: 0 auto; }
+      .title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+      .subtitle { margin-top: 8px; color: rgba(255,255,255,0.85); }
+      main { padding: 22px; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: -26px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 16px 14px;
+        box-shadow: var(--shadow);
+      }
+      .card .k { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+      .card .v { margin-top: 8px; font-size: 22px; font-weight: 700; }
+      .section {
+        margin-top: 18px;
+      }
+      .section h2 {
+        font-size: 16px;
+        margin: 16px 0 10px;
+        color: #1A202C;
+        letter-spacing: -0.01em;
+      }
+      .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        background: #fff;
+      }
+      .table th {
+        text-align: left;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4A5568;
+        padding: 12px 14px;
+        background: #F7FAFC;
+        border-bottom: 1px solid var(--border);
+      }
+      .table td {
+        vertical-align: top;
+        padding: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .cell__title {
+        font-weight: 700;
+        font-size: 12px;
+        color: #2D3748;
+        margin-bottom: 8px;
+      }
+      pre.record {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        color: #1A202C;
+        background: #F7FAFC;
+        border: 1px solid rgba(15, 23, 42, 0.07);
+        border-radius: 12px;
+        padding: 10px;
+      }
+      .cell--narrow { width: 220px; }
+      .badge {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(15, 23, 42, 0.10);
+      }
+      .badge--green { background: rgba(34, 197, 94, 0.12); color: #166534; }
+      .badge--yellow { background: rgba(234, 179, 8, 0.16); color: #854d0e; }
+      .badge--gray { background: rgba(148, 163, 184, 0.20); color: #334155; }
+      .reason {
+        margin-top: 10px;
+        color: #4A5568;
+        font-size: 12px;
+        line-height: 1.35;
+      }
+      footer {
+        color: #6B7280;
+        font-size: 12px;
+        padding: 26px 22px 36px;
+      }
+      @media (max-width: 960px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 560px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <div class="title">CRM Deduplication Audit — Your CRM</div>
+        <div class="subtitle">May 17, 2026</div>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <div class="grid">
+          <div class="card">
+            <div class="k">Total records analyzed</div>
+            <div class="v">4,910</div>
+          </div>
+          <div class="card">
+            <div class="k">Duplicate pairs found</div>
+            <div class="v">2,116</div>
+          </div>
+          <div class="card">
+            <div class="k">Estimated hours saved</div>
+            <div class="v">105.8</div>
+          </div>
+          <div class="card">
+            <div class="k">Estimated cost of missed duplicates</div>
+            <div class="v">$423,200</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Top 20 match examples</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Record A</th>
+                <th>Record B</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              <td class="cell">
+                <div class="cell__title">755</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;755&#x27;, &#x27;title&#x27;: &#x27;design and user testing of a multi-paradigm query interface to an object-oriented database dac khoa doan , alistair c. kilgour , norman w. paton sigmod record 1995&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1572</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1572&#x27;, &#x27;title&#x27;: &#x27;design and user testing of a multi-paradigm query interface to an object-oriented database dac khoa doan , norman w. paton , alistair kilgour acm sigmod record 1995&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">1.00</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">558</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;558&#x27;, &#x27;title&#x27;: &#x27;control strategies for complex relational query processing in shared nothing systems lionel brunie , harald kosch sigmod record 1996&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1879</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1879&#x27;, &#x27;title&#x27;: &#x27;control strategies for complex relational query processing in shared nothing systems lionel brunie , harald kosch acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 1996.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1331</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1331&#x27;, &#x27;title&#x27;: &#x27;tsql2 language specification 1994&#x27;, &#x27;authors&#x27;: &#x27;wolfgang käfer , curtis e. dyreson , arie segev , krishna g. kulkarni , michael d. soo , don s. batory , ramez elmasri , nikos a. lorentzos , nick kline , john f. roddick , gad ariav , james clifford , richard t. snodgrass , suryanarayana m. sripada , t. y. cliff leung , fabio grandi , ilsoo ahn , christian s. jensen&#x27;, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1700</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1700&#x27;, &#x27;title&#x27;: &#x27;tsql2 language specification 1994&#x27;, &#x27;authors&#x27;: &#x27;richard thomas snodgrass , ilsoo ahn , gadi ariav , don batory , james clifford , curtis e. dyreson , ramez elmasri , fabio grandi , christian s. jensen , wolfgang k &amp;#228; fer , nick kline , krishna kulkarni , t. y. cliff leung , nikos lorentzos , john f. roddick , arie segev , michael d. soo , suryanarayana m. sripada&#x27;, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">894</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;894&#x27;, &#x27;title&#x27;: &#x27;eiha ?!? : deploying web and wap services using xml technology jean-christophe r. pazzaglia , chiara biancheri , gavino paddeu sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">474</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;474&#x27;, &#x27;title&#x27;: &#x27;eiha ?!? : deploying web and wap services using xml technology chiara biancheri , jean-christophe pazzaglia , gavino paddeu acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">2574</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2574&#x27;, &#x27;title&#x27;: &#x27;report from the nsf workshop on workflow and process automation in information systems dimitrios georgakopoulos , stef joosten , marek rusinkiewicz , alexander l. wolf , walt scacchi , amit p. sheth , jack c. wileden sigmod record 1996&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1896</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1896&#x27;, &#x27;title&#x27;: &#x27;report from the nsf workshop on workflow and process automation in information systems amit sheth , dimitrios georgakopoulos , stef m. m. joosten , marek rusinkiewicz , walt scacchi , jack wileden , alexander l. wolf acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 1996.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">509</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;509&#x27;, &#x27;title&#x27;: &#x27;aqr-toolkit : an adaptive query routing middleware for distributed data intensive systems henrique paques , wei tang , calton pu , wei han , ling liu , david buttler sigmod conference 2000&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">403</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;403&#x27;, &#x27;title&#x27;: &#x27;aqr-toolkit : an adaptive query routing middleware for distributed data intensive systems ling liu , calton pu , david buttler , wei han , henrique paques , wei tang&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;international conference on management of data&#x27;, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">832</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;832&#x27;, &#x27;title&#x27;: &#x27;a sequential pattern query language for supporting instant data mining for e-services reza sadri , amir m. zarkesh , jafar adibi , carlo zaniolo vldb&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1412</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1412&#x27;, &#x27;title&#x27;: &#x27;a sequential pattern query language for supporting instant data mining for e-services reza sadri , carlo zaniolo , amir m. zarkesh , jafar adibi&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;very large data bases&#x27;, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1485</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1485&#x27;, &#x27;title&#x27;: &#x27;a brief survey of web data extraction tools berthier a. ribeiro-neto , alberto h. f. laender , altigran soares da silva , juliana s. teixeira sigmod record 2002&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">737</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;737&#x27;, &#x27;title&#x27;: &#x27;a brief survey of web data extraction tools alberto h. f. laender , berthier a. ribeiro-neto , altigran s. da silva , juliana s. teixeira acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2002.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1250</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1250&#x27;, &#x27;title&#x27;: &#x27;data mining-based intrusion detectors : an overview of the columbia ids project&#x27;, &#x27;authors&#x27;: &#x27;wenke lee , eleazar eskin , wei fan , salvatore j. stolfo , philip k. chan&#x27;, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">554</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;554&#x27;, &#x27;title&#x27;: &#x27;data mining-based intrusion detectors : an overview of the columbia ids project salvatore j. stolfo , wenke lee , philip k. chan , wei fan , eleazar eskin acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2001.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1192</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1192&#x27;, &#x27;title&#x27;: &#x27;using metadata for the intelligent browsing of structured media objects william i. grosky , farshad fotouhi , ishwar k. sethi sigmod record 1994&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1731</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1731&#x27;, &#x27;title&#x27;: &#x27;using metadata for the intelligent browsing of structured media objects william i. grosky , farshad fotouhi , ishwar k. sethi , bogdan capatina acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 1994.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">2293</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2293&#x27;, &#x27;title&#x27;: &#x27;query previews for networked information systems : a case study with nasa environmental data 1997&#x27;, &#x27;authors&#x27;: &#x27;khoa doan , catherine plaisant , ben shneiderman , tom bruns&#x27;, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1927</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1927&#x27;, &#x27;title&#x27;: &#x27;query previews for networked information systems : a case study with nasa environmental data&#x27;, &#x27;authors&#x27;: &#x27;khoa doan , catherine plaisant , ben shneiderman , tom bruns&#x27;, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 1997.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">2265</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2265&#x27;, &#x27;title&#x27;: &#x27;an environmental sensor network to determine drinking water quality and security&#x27;, &#x27;authors&#x27;: &#x27;jeanne vanbriesen , paul s. fischbeck , christos faloutsos , anastassia ailamaki , mitchell j. small&#x27;, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: 2003.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2224</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2224&#x27;, &#x27;title&#x27;: &#x27;an environmental sensor network to determine drinking water quality and security&#x27;, &#x27;authors&#x27;: &#x27;anastassia ailamaki , christos faloutos , paul s. fischbeck , mitchell j. small , jeanne vanbriesen&#x27;, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 2003.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">80</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;80&#x27;, &#x27;title&#x27;: &#x27;l/mrp : a buffer management strategy for interactive continuous data flows in a multimedia dbms 1995&#x27;, &#x27;authors&#x27;: &#x27;wolfgang klas , frank moser , achim kraiss&#x27;, &#x27;venue&#x27;: &#x27;vldb&#x27;, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1461</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1461&#x27;, &#x27;title&#x27;: &#x27;l/mrp : a buffer management strategy for interactive continuous data flows in a multimedia dbms&#x27;, &#x27;authors&#x27;: &#x27;frank moser , achim kraiss , wolfgang klas&#x27;, &#x27;venue&#x27;: &#x27;very large data bases&#x27;, &#x27;year&#x27;: 1995.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">2019</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2019&#x27;, &#x27;title&#x27;: &#x27;workshop report on experiences using object data management in the real-world akmal b. chaudhri 1998&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1773</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1773&#x27;, &#x27;title&#x27;: &#x27;workshop report on experiences using object data management in the real-world akmal b. chaudhri&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 1998.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">2087</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2087&#x27;, &#x27;title&#x27;: &#x27;hierarchies and relative operators in the olap environment maurizio rafanelli , elaheh pourabbas sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">491</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;491&#x27;, &#x27;title&#x27;: &#x27;hierarchies and relative operators in the olap environment elaheh pourabbas , maurizio rafanelli acm sigmod record&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1979</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1979&#x27;, &#x27;title&#x27;: &#x27;a multi-paradigm querying approach for a generic multimedia database management system ji-rong wen , qing li , wei-ying ma , hongjiang zhang&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;sigmod record&#x27;, &#x27;year&#x27;: 2003.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">903</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;903&#x27;, &#x27;title&#x27;: &#x27;a multi-paradigm querying approach for a generic multimedia database management system ji-rong wen , qing li , wei-ying ma , hong-jiang zhang&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 2003.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1592</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1592&#x27;, &#x27;title&#x27;: &#x27;from vldb to vmldb ( very many large data bases ) : dealing with large-scale semantic heterogenity vldb 1995&#x27;, &#x27;authors&#x27;: &#x27;stuart e. madnick&#x27;, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1110</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1110&#x27;, &#x27;title&#x27;: &#x27;from vldb to vmldb ( very many large data bases ) : dealing with large-scale semantic heterogenity stuart e. madnick very large data bases&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: 1995.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">504</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;504&#x27;, &#x27;title&#x27;: &#x27;decision tables : scalable classification exploring rdbms capabilities&#x27;, &#x27;authors&#x27;: &#x27;hongyan liu , hongjun lu&#x27;, &#x27;venue&#x27;: &#x27;vldb&#x27;, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">871</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;871&#x27;, &#x27;title&#x27;: &#x27;decision tables : scalable classification exploring rdbms capabilities&#x27;, &#x27;authors&#x27;: &#x27;hongjun lu , hongyan liu&#x27;, &#x27;venue&#x27;: &#x27;very large data bases&#x27;, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1733</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1733&#x27;, &#x27;title&#x27;: &#x27;incremental maintenance of recursive views using relational calculus/sql jianwen su , guozhu dong sigmod record 2000&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">493</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;493&#x27;, &#x27;title&#x27;: &#x27;incremental maintenance of recursive views using relational calculus/sql&#x27;, &#x27;authors&#x27;: &#x27;guozhu dong , jianwen su&#x27;, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 2000.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">358</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;358&#x27;, &#x27;title&#x27;: &#x27;a multi-agent system infrastructure for software component market-place : an ontological perspective riza cenk erdur , oguz dikenelli sigmod record 2002&#x27;, &#x27;authors&#x27;: nan, &#x27;venue&#x27;: nan, &#x27;year&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">665</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;665&#x27;, &#x27;title&#x27;: &#x27;a multi-agent system infrastructure for software component market-place : an ontological perspective&#x27;, &#x27;authors&#x27;: &#x27;riza cenk erdur , o &amp;#287; uz dikenelli&#x27;, &#x27;venue&#x27;: &#x27;acm sigmod record&#x27;, &#x27;year&#x27;: 2002.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.99</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Confidence distribution</h2>
+          <div class="card">
+            <svg viewBox="0 0 720 160" width="100%" height="160" role="img" aria-label="Confidence distribution">
+  <rect x="0" y="0" width="720" height="160" fill="#F7FAFC" rx="14"></rect>
+  <rect x="34.0" y="63.4" width="148.0" height="65.6" rx="8" fill="#2B6CB0"></rect><rect x="202.0" y="24.0" width="148.0" height="105.0" rx="8" fill="#2B6CB0"></rect><rect x="370.0" y="77.5" width="148.0" height="51.5" rx="8" fill="#2B6CB0"></rect><rect x="538.0" y="122.1" width="148.0" height="6.9" rx="8" fill="#2B6CB0"></rect>
+  <text x="108.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.85–0.89</text><text x="108.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">606</text><text x="276.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.90–0.94</text><text x="276.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">970</text><text x="444.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.95–0.97</text><text x="444.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">476</text><text x="612.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.98–1.00</text><text x="612.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">64</text>
+</svg>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="wrap">Generated by EntityMatch API — contact@yourdomain.com</div>
+    </footer>
+  </body>
+</html>
