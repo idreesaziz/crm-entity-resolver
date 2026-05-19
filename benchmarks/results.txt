@@ -1,6 +1,6 @@
 Dataset          | Method                       | Precision | Recall | F1
 -----------------+------------------------------+-----------+--------+-----
 DBLP-ACM         | dedupe.io (mocked)           |      0.84 |   0.79 | 0.81
-DBLP-ACM         | Our pipeline (ollama/gemma4:e4b-it-q4_K_M, cap=20) |      1.00 |   0.01 | 0.02
+DBLP-ACM         | Our pipeline (MOCK verifier) |      0.98 |   0.22 | 0.36
 Amazon-Google    | dedupe.io (mocked)           |      0.78 |   0.71 | 0.74
-Amazon-Google    | Our pipeline (ollama/gemma4:e4b-it-q4_K_M, cap=20) |      0.95 |   0.02 | 0.03
+Amazon-Google    | Our pipeline (MOCK verifier) |      0.75 |   0.10 | 0.18

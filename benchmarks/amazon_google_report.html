@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRM Deduplication Audit — Amazon-Google Benchmark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --navy: #0B1F3B;
+        --bg: #F2F5F9;
+        --card: #FFFFFF;
+        --text: #12202F;
+        --muted: #5B6B7C;
+        --shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+        --border: rgba(15, 23, 42, 0.08);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      header {
+        background: linear-gradient(135deg, var(--navy), #123A6B);
+        color: #fff;
+        padding: 36px 22px;
+      }
+      .wrap { max-width: 1100px; margin: 0 auto; }
+      .title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+      .subtitle { margin-top: 8px; color: rgba(255,255,255,0.85); }
+      main { padding: 22px; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: -26px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 16px 14px;
+        box-shadow: var(--shadow);
+      }
+      .card .k { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+      .card .v { margin-top: 8px; font-size: 22px; font-weight: 700; }
+      .section {
+        margin-top: 18px;
+      }
+      .section h2 {
+        font-size: 16px;
+        margin: 16px 0 10px;
+        color: #1A202C;
+        letter-spacing: -0.01em;
+      }
+      .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        background: #fff;
+      }
+      .table th {
+        text-align: left;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4A5568;
+        padding: 12px 14px;
+        background: #F7FAFC;
+        border-bottom: 1px solid var(--border);
+      }
+      .table td {
+        vertical-align: top;
+        padding: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .cell__title {
+        font-weight: 700;
+        font-size: 12px;
+        color: #2D3748;
+        margin-bottom: 8px;
+      }
+      pre.record {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        color: #1A202C;
+        background: #F7FAFC;
+        border: 1px solid rgba(15, 23, 42, 0.07);
+        border-radius: 12px;
+        padding: 10px;
+      }
+      .cell--narrow { width: 220px; }
+      .badge {
+        display: inline-block;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(15, 23, 42, 0.10);
+      }
+      .badge--green { background: rgba(34, 197, 94, 0.12); color: #166534; }
+      .badge--yellow { background: rgba(234, 179, 8, 0.16); color: #854d0e; }
+      .badge--gray { background: rgba(148, 163, 184, 0.20); color: #334155; }
+      .reason {
+        margin-top: 10px;
+        color: #4A5568;
+        font-size: 12px;
+        line-height: 1.35;
+      }
+      footer {
+        color: #6B7280;
+        font-size: 12px;
+        padding: 26px 22px 36px;
+      }
+      @media (max-width: 960px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 560px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <div class="title">CRM Deduplication Audit — Amazon-Google Benchmark</div>
+        <div class="subtitle">May 19, 2026</div>
+      </div>
+    </header>
+    <main>
+      <div class="wrap">
+        <div class="grid">
+          <div class="card">
+            <div class="k">Total records analyzed</div>
+            <div class="v">4,589</div>
+          </div>
+          <div class="card">
+            <div class="k">Duplicate pairs found</div>
+            <div class="v">163</div>
+          </div>
+          <div class="card">
+            <div class="k">Estimated hours saved</div>
+            <div class="v">8.2</div>
+          </div>
+          <div class="card">
+            <div class="k">Estimated cost of missed duplicates</div>
+            <div class="v">$32,600</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Top 20 match examples</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Record A</th>
+                <th>Record B</th>
+                <th>Decision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+              <td class="cell">
+                <div class="cell__title">718</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;718&#x27;, &#x27;title&#x27;: &#x27;land before time : kindergarten&#x27;, &#x27;manufacturer&#x27;: &#x27;brighter-minds-media-inc .&#x27;, &#x27;price&#x27;: 9.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">450</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;450&#x27;, &#x27;title&#x27;: &#x27;brighter minds land before time : kindergarten&#x27;, &#x27;manufacturer&#x27;: &#x27;brighter-minds-media-inc .&#x27;, &#x27;price&#x27;: 9.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.96</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1116</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1116&#x27;, &#x27;title&#x27;: &#x27;aquazone bass edition&#x27;, &#x27;manufacturer&#x27;: &#x27;smith-micro-software&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">952</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;952&#x27;, &#x27;title&#x27;: &#x27;allume aquazone bass edition&#x27;, &#x27;manufacturer&#x27;: &#x27;smith-micro-software&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.96</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">570</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;570&#x27;, &#x27;title&#x27;: &#x27;professor teaches windows xp&#x27;, &#x27;manufacturer&#x27;: &#x27;individual software&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2861</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2861&#x27;, &#x27;title&#x27;: &#x27;professor teaches windows xp individual software&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.95</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">570</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;570&#x27;, &#x27;title&#x27;: &#x27;professor teaches windows xp&#x27;, &#x27;manufacturer&#x27;: &#x27;individual software&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">795</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;795&#x27;, &#x27;title&#x27;: &#x27;individual software professor teaches windows xp&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.95</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1004</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1004&#x27;, &#x27;title&#x27;: &#x27;professor teaches excel &amp; word&#x27;, &#x27;manufacturer&#x27;: &#x27;individual software&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">794</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;794&#x27;, &#x27;title&#x27;: &#x27;individual software professor teaches excel &amp; word&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--green">0.95</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">488</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;488&#x27;, &#x27;title&#x27;: &#x27;star wars battlefront ( mac )&#x27;, &#x27;manufacturer&#x27;: &#x27;aspyr media&#x27;, &#x27;price&#x27;: 39.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2415</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2415&#x27;, &#x27;title&#x27;: &#x27;aspyr media 10900 star wars battlefront mac&#x27;, &#x27;manufacturer&#x27;: &#x27;aspyr media&#x27;, &#x27;price&#x27;: 39.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.95</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">413</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;413&#x27;, &#x27;title&#x27;: &#x27;human body 360&#x27;, &#x27;manufacturer&#x27;: &#x27;megasystems&#x27;, &#x27;price&#x27;: 29.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2873</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2873&#x27;, &#x27;title&#x27;: &#x27;human body 360 megasystems&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 29.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.94</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">363</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;363&#x27;, &#x27;title&#x27;: &#x27;sony psp media manager&#x27;, &#x27;manufacturer&#x27;: &#x27;sony-computer-entertainment&#x27;, &#x27;price&#x27;: 24.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2854</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2854&#x27;, &#x27;title&#x27;: &#x27;sony media manager for psp ( 98598 )&#x27;, &#x27;manufacturer&#x27;: &#x27;sony-computer-entertainment&#x27;, &#x27;price&#x27;: 24.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.94</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">1202</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1202&#x27;, &#x27;title&#x27;: &#x27;caillou magical adventures&#x27;, &#x27;manufacturer&#x27;: &#x27;brighter-minds-media-inc .&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">584</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;584&#x27;, &#x27;title&#x27;: &#x27;caillou magical adventures by brighter minds&#x27;, &#x27;manufacturer&#x27;: &#x27;brighter-minds-media-inc .&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.93</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">772</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;772&#x27;, &#x27;title&#x27;: &#x27;adobe illustrator cs3 [ mac ]&#x27;, &#x27;manufacturer&#x27;: &#x27;adobe&#x27;, &#x27;price&#x27;: 599.0}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2860</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2860&#x27;, &#x27;title&#x27;: &#x27;adobe illustrator cs3 ( mac )&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 599.0}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.93</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">710</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;710&#x27;, &#x27;title&#x27;: &#x27;marine aquarium 2.0 ( mac )&#x27;, &#x27;manufacturer&#x27;: &#x27;encore&#x27;, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">402</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;402&#x27;, &#x27;title&#x27;: &#x27;encore marine aquarium 2.0&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 19.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">759</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;759&#x27;, &#x27;title&#x27;: &#x27;humorous greeting card factory&#x27;, &#x27;manufacturer&#x27;: &#x27;nova development&#x27;, &#x27;price&#x27;: 29.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1949</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1949&#x27;, &#x27;title&#x27;: &#x27;nova development ghw humorous greeting card factory&#x27;, &#x27;manufacturer&#x27;: &#x27;nova development&#x27;, &#x27;price&#x27;: 29.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">276</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;276&#x27;, &#x27;title&#x27;: &#x27;instant immersion 33 languages&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: 49.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2996</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2996&#x27;, &#x27;title&#x27;: &#x27;instant immersion 33 languages&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: 43.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">105</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;105&#x27;, &#x27;title&#x27;: &#x27;instant immersion spanish ( audio book )&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1655</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1655&#x27;, &#x27;title&#x27;: &#x27;topics entertainment 40248 instant immersion spanish audio book audio book&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: 23.61}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">274</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;274&#x27;, &#x27;title&#x27;: &#x27;instant immersion italian 2.0&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: 29.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">3048</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;3048&#x27;, &#x27;title&#x27;: &#x27;instant immersion italian 2.0&#x27;, &#x27;manufacturer&#x27;: &#x27;topics entertainment&#x27;, &#x27;price&#x27;: 20.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">311</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;311&#x27;, &#x27;title&#x27;: &#x27;axis network camera 213 ptz digital video camera 0220-004 )&#x27;, &#x27;manufacturer&#x27;: &#x27;axis-communication-inc .&#x27;, &#x27;price&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">3104</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;3104&#x27;, &#x27;title&#x27;: &#x27;axis network camera 213 ptz digital video camera 0220-004 ( 0220-004 )&#x27;, &#x27;manufacturer&#x27;: &#x27;axis-communication-inc .&#x27;, &#x27;price&#x27;: 1420.79}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">682</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;682&#x27;, &#x27;title&#x27;: &#x27;mozy 3.0&#x27;, &#x27;manufacturer&#x27;: &#x27;simply-put-software-llc&#x27;, &#x27;price&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">272</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;272&#x27;, &#x27;title&#x27;: &#x27;simply put software llc mozy 3.0&#x27;, &#x27;manufacturer&#x27;: &#x27;simply-put-software-llc&#x27;, &#x27;price&#x27;: 43.3}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.92</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">178</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;178&#x27;, &#x27;title&#x27;: &#x27;smart steps 4th grade&#x27;, &#x27;manufacturer&#x27;: &#x27;dorling-kindersley-multimedia - ( dk )&#x27;, &#x27;price&#x27;: 29.95}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">1548</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;1548&#x27;, &#x27;title&#x27;: &#x27;smart steps 4th grade ( jc )&#x27;, &#x27;manufacturer&#x27;: &#x27;dorling-kindersley-multimedia - ( dk )&#x27;, &#x27;price&#x27;: 11.95}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.91</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">963</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;963&#x27;, &#x27;title&#x27;: &#x27;synet pc sharing kit ( w/17ft usb ext.cable )&#x27;, &#x27;manufacturer&#x27;: &#x27;synet-electronics-inc .&#x27;, &#x27;price&#x27;: nan}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">869</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;869&#x27;, &#x27;title&#x27;: &#x27;synet electronics inc. synet pc sharing kit ( w/17ft usb ext.cable )&#x27;, &#x27;manufacturer&#x27;: &#x27;synet-electronics-inc .&#x27;, &#x27;price&#x27;: 26.14}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.91</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr><tr>
+              <td class="cell">
+                <div class="cell__title">233</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;233&#x27;, &#x27;title&#x27;: &#x27;photo explosion deluxe 3.0&#x27;, &#x27;manufacturer&#x27;: &#x27;nova development&#x27;, &#x27;price&#x27;: 49.99}</pre>
+              </td>
+              <td class="cell">
+                <div class="cell__title">2840</div>
+                <pre class="record">{&#x27;id&#x27;: &#x27;2840&#x27;, &#x27;title&#x27;: &#x27;photo explosion deluxe 3.0 nova&#x27;, &#x27;manufacturer&#x27;: nan, &#x27;price&#x27;: 49.99}</pre>
+              </td>
+              <td class="cell cell--narrow">
+                <span class="badge badge--yellow">0.91</span>
+                <div class="reason">MOCK verifier (OPENAI_API_KEY not set): using embedding cosine similarity.</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Confidence distribution</h2>
+          <div class="card">
+            <svg viewBox="0 0 720 160" width="100%" height="160" role="img" aria-label="Confidence distribution">
+  <rect x="0" y="0" width="720" height="160" fill="#F7FAFC" rx="14"></rect>
+  <rect x="34.0" y="24.0" width="148.0" height="105.0" rx="8" fill="#2B6CB0"></rect><rect x="202.0" y="94.6" width="148.0" height="34.4" rx="8" fill="#2B6CB0"></rect><rect x="370.0" y="124.6" width="148.0" height="4.4" rx="8" fill="#2B6CB0"></rect><rect x="538.0" y="129.0" width="148.0" height="0.0" rx="8" fill="#2B6CB0"></rect>
+  <text x="108.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.85–0.89</text><text x="108.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">119</text><text x="276.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.90–0.94</text><text x="276.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">39</text><text x="444.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.95–0.97</text><text x="444.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">5</text><text x="612.0" y="151.0" text-anchor="middle" font-size="12" fill="#4A5568">0.98–1.00</text><text x="612.0" y="169.0" text-anchor="middle" font-size="12" fill="#1A202C">0</text>
+</svg>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="wrap">Generated by EntityMatch API — contact@yourdomain.com</div>
+    </footer>
+  </body>
+</html>
